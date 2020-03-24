@@ -1,0 +1,14 @@
+{
+	"name":"ftp 三连击实现复制",
+	"version":"1.0",
+	
+	"manifest_version":2,
+	"description":"ftp 三连击复制",
+	"browser_action":{
+    },
+    "content_scripts": [{  
+        "matches": ["http://it.vx163.net/*"],  
+        "js": ["myscript.js"],
+        "all_frames": true
+   }]
+    }
