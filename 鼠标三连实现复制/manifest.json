@@ -9,6 +9,7 @@
     "content_scripts": [{  
         "matches": ["http://it.vx163.net/*"],  
         "js": ["myscript.js"],
-        "all_frames": true
+        "all_frames": true,
+        "run_at": "document_start"
    }]
     }
