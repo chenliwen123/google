@@ -1,0 +1,15 @@
+{
+	"name":"直播去颜值和交友",
+	"version":"1.0",
+	
+	"manifest_version":2,
+	"description":"直播去颜值和交友",
+	"browser_action":{
+    },
+    "content_scripts": [{  
+        "matches": ["https://www.huya.com/*","https://www.douyu.com/*"],  
+        "js": ["myscript.js"],
+        "all_frames": true,
+        "run_at": "document_start"
+   }]
+    }
