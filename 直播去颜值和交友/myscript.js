@@ -1,3 +1,6 @@
+const huya = ['交友','星秀','颜值','二次元']; // 虎牙需要过滤的标签
+const douyu = ['舞蹈','颜值','交友','二次元']; // 斗鱼需要过滤的标签
+
 let listul, pageList;
 if (location.host.indexOf("huya") > -1) {
   function aaa() {
@@ -9,10 +12,7 @@ if (location.host.indexOf("huya") > -1) {
         .querySelectorAll(".game-type")[0]
         .querySelector("a").innerHTML;
       if (
-        gameType == "交友" ||
-        gameType == "星秀" ||
-        gameType == "颜值" ||
-        gameType == "二次元"
+        huya.indexOf(gameType) > -1
       ) {
         nowdata.remove();
       } else {
@@ -63,12 +63,8 @@ if (location.host.indexOf("huya") > -1) {
       let gameType = nowdata
         .querySelectorAll(".DyListCover-zone")[0].innerHTML;
       if (
-        gameType == "舞蹈" ||
-        gameType == "颜值" ||
-        gameType == "交友" ||
-        gameType == "二次元"
+        huya.indexOf(gameType) > -1
       ) {
-        // nowdata.remove();
         nowdata.style.display="none"
       }
     }
