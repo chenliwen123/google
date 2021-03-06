@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+ input[type='checkbox'].switch{
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    transition: border-color .3s, background-color .3s;
+    cursor:pointer;
+}
+
+input[type='checkbox'].switch::after {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height:1rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0, 0, 2px, #999;
+    transition:.4s;
+    top: 2px;
+    position: absolute;
+    left: 2px;
+}
+
+input[type='checkbox'].switch:checked {
+    background: rgb(19, 206, 102);
+}
+input[type='checkbox'].switch:checked::after {
+    content: '';
+    position: absolute;
+    left: 55%;
+    top: 2px;
+}
+.box_content{
+  display:flex;
+  width: 120px;
+  align-items: center;
+  margin:20px;
+}
+.box_content_label{
+  width: 80px;
+}
+.box_content_title{
+  width: 100%;
+  font-size:18px;
+  line-height: 2.5;
+  text-align: center;
+}
+button {
+          height: 30px;
+          width: 30px;
+          outline: none;
+          margin: 10px;
+        }
+  </style>
+</head>
+<body>
+  <div class="box_content_title">过滤百度广告</div>
+  <div class="box_content">
+    <div class="box_content_label">是否开启：</div>
+    <input type="checkbox" class="switch" id="switch">
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
