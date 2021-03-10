@@ -2,7 +2,7 @@ let content_left,formdom;
 /**@function 删除dom方法 */
 function removeDom() {
   content_left = document.querySelectorAll("#content_left")[0].children;
-  for (let i = 0; i < content_left.length; ) {
+  for (let i = 0; i < content_left.length; i++) {
     let fontbottom =
       (content_left[i].children[2] &&
         content_left[i].children[2].querySelectorAll("font")[0]) ||
@@ -19,7 +19,8 @@ function removeDom() {
         )[0]) ||
       "";
     if (fontbottom.innerText == "广告" || rightfort.innerText == "广告") {
-      content_left[i].remove();
+      // content_left[i].remove();
+      content_left[i].style.display = 'none';
     } else {
       i++;
     }
