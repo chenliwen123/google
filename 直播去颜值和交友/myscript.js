@@ -60,10 +60,9 @@ if (location.host.indexOf("huya") > -1) {
     listAll = listul[0].querySelectorAll('.layout-Cover-list')[0].children;
     for (let i = 0; i < listAll.length;i++) {
       let nowdata = listAll[i];
-      let gameType = nowdata
-        .querySelectorAll(".DyListCover-zone")[0].innerHTML;
+      let gameType = nowdata.querySelectorAll('.DyListCover-zone')[0].innerHTML
       if (
-        huya.indexOf(gameType) > -1
+        douyu.indexOf(gameType) > -1
       ) {
         nowdata.style.display="none"
       }
