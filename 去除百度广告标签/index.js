@@ -19,10 +19,7 @@ function removeDom() {
         )[0]) ||
       "";
     if (fontbottom.innerText == "广告" || rightfort.innerText == "广告") {
-      // content_left[i].remove();
       content_left[i].style.display = 'none';
-    } else {
-      i++;
     }
   }
   if(!formdom){
