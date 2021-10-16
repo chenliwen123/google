@@ -1,5 +1,5 @@
 const huya = ['交友','星秀','颜值','二次元']; // 虎牙需要过滤的标签
-const douyu = ['舞蹈','颜值','交友','二次元']; // 斗鱼需要过滤的标签
+const douyu = ['舞蹈','颜值','交友','二次元','音乐']; // 斗鱼需要过滤的标签
 
 let listul, pageList;
 if (location.host.indexOf("huya") > -1) {
