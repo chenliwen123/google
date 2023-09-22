@@ -124,115 +124,19 @@
       };
     });
   };
-  // 删除数据
-  let delectStoreData = function (name, key) {
-    console.log('delectStoreData');
-    return new Promise((resolve, reject) => {
-      let databaseName = name;
-      let db;
-      let request = window.indexedDB.open(databaseName);
-      request.onsuccess = function (event) {
-        db = event.target.result;
-        let req = db
-          .transaction(databaseName, 'readwrite')
-          .objectStore(databaseName)
-          .delete(key); // 这里指定的是主键的键值
-
-        req.onsuccess = function () {
-          resolve('删除成功');
-        };
-
-        req.onerror = function () {
-          reject('删除失败');
-        };
-      };
-    });
-  };
-  // 更新
-  let updateStoreData = function (storeName, newData, key) {
-    console.log('updateStoreData');
-    return new Promise((resolve, reject) => {
-      let request = window.indexedDB.open(storeName);
-      let db;
-      request.onsuccess = function (event) {
-        db = event.target.result;
-        let transaction = db.transaction(storeName, 'readwrite');
-        let store = transaction.objectStore(storeName);
-        let storeData = store.get(key);
-
-        storeData.onsuccess = function (e) {
-          let data = e.target.result || {};
-          for (a in newData) {
-            data[a] = newData[a];
-          }
-          store.put(data);
-          resolve();
-        };
-      };
-      request.onupgradeneeded = function (event) {
-        let db = event.target.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-          // 创建仓库对象（创建表格）
-          // 这里我将主键设置为id
-          let objectStore = db.createObjectStore(storeName, {
-            keyPath: 'id',
-            autoIncrement: true,
-          });
-        }
-      };
-    });
-  };
-  // 遍历获取
-  let storeDataList = function (storeName) {
-    console.log('storeDataList');
-    return new Promise((resolve, reject) => {
-      let request = window.indexedDB.open(storeName);
-      let db;
-      request.onsuccess = function (event) {
-        db = event.target.result;
-        let transaction = db.transaction(storeName);
-        let store = transaction.objectStore(storeName);
-        let cursor = store.openCursor(); //打开游标
-        let dataList = new Array();
-        cursor.onsuccess = function (e) {
-          var cursorVal = e.target.result;
-          if (cursorVal) {
-            dataList.push(cursorVal.value);
-            cursorVal.continue();
-          } else {
-            // 遍历结束
-            resolve(dataList);
-          }
-        };
-      };
-      request.onupgradeneeded = function (event) {
-        let db = event.target.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-          // 创建仓库对象（创建表格）
-          // 这里我将主键设置为id
-          let objectStore = db.createObjectStore(storeName, {
-            keyPath: 'id',
-            autoIncrement: true,
-          });
-        }
-      };
-    });
-  };
-
-  // 批量删除
-  function batchDelete(storeName, keys) {
-    console.log('batchDelete');
-    let allKeys = keys.map((item) => {
-      item = +item;
-      return delectStoreData(storeName, item);
-    });
-    return allKeys;
-    /* Promise.all(allKeys).then(data => {
-           console.log(data);
-           resolve(data);
-       });*/
-  }
   creatUpdateStore('chenliwen');
+
+  /**@function 区分参数和地址 */
+  function queryurl(query, params) {
+    const url = new URL(query);
+    const extractedAddress = url.origin + url.pathname; // 提取地址和路径部分
+    url.searchParams.delete('_t');
+    for (let key in params) {
+      url.searchParams.set(key, params[key]);
+    }
+    return `${extractedAddress}?${url.searchParams.toString()}`;
+  }
+  /**@function 代理ajax请求 */
   ah.proxy(
     {
       //请求发起前进入
@@ -242,16 +146,15 @@
       },
       //请求发生错误时进入，比如超时；注意，不包括http状态码错误，如404仍然会认为请求成功
       onError: (err, handler) => {
-        // getStoreData(
-        //   'chenliwen',
-        //   handler.xhr.responseURL.replace(/&_t=.*/g, '')
-        // );
         console.log(err);
         handler.next(err);
       },
       //请求成功后进入
       onResponse: async (response, handler) => {
-        const key = handler.xhr.responseURL.replace(/_t=.*/g, '');
+        const key = queryurl(
+          handler.xhr.responseURL,
+          JSON.parse(response.config.body || '{}')
+        );
         if (response.statusText === 'Gateway Timeout') {
           response.status = 200;
           response.statusText = 'OK';
@@ -268,5 +171,4 @@
     },
     window
   );
-  // Your code here...
 })();
